@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Contact{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card contact-card border-0">
+            <div class="card-header glass-effect border-0 text-center">
+                <div class="bg-danger rounded-circle p-3 mx-auto mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-exclamation-triangle fa-2x text-white"></i>
+                </div>
+                <h4 class="mb-1">Delete Contact</h4>
+                <p class="text-muted mb-0">This action cannot be undone</p>
+            </div>
+            
+            <div class="card-body p-4 text-center">
+                <!-- Contact Info -->
+                <div class="mb-4">
+                    {% if contact.profile_picture %}
+                    <img src="{{ contact.profile_picture.url }}" class="profile-pic mb-3" alt="{{ contact.first_name }}" style="width: 100px; height: 100px;">
+                    {% else %}
+                    <div class="profile-pic mb-3 mx-auto d-flex align-items-center justify-content-center bg-primary" style="width: 100px; height: 100px;">
+                        <i class="fas fa-user fa-2x text-white"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <h5 class="fw-bold">{{ contact.first_name }} {{ contact.last_name }}</h5>
+                    
+                    {% if contact.email %}
+                    <p class="text-muted mb-1">
+                        <i class="fas fa-envelope me-2"></i>{{ contact.email }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if contact.phone_number %}
+                    <p class="text-muted mb-1">
+                        <i class="fas fa-phone me-2"></i>{{ contact.phone_number }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if contact.company %}
+                    <p class="text-muted">
+                        <i class="fas fa-building me-2"></i>{{ contact.company }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <!-- Warning Message -->
+                <div class="alert alert-warning glass-effect border-0 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-skull-crossbones me-3 fa-lg"></i>
+                        <div>
+                            <strong>Warning!</strong> You are about to permanently delete this contact. 
+                            This action cannot be reversed.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Form -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'contact_list' %}" class="btn btn-outline-secondary btn-lg me-md-2">
+                            <i class="fas fa-arrow-left me-2"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fas fa-trash me-2"></i> Delete Forever
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-footer text-center text-muted">
+                <small>
+                    <i class="fas fa-info-circle me-1"></i>
+                    Contact created: {{ contact.created_at|date:"M d, Y" }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-danger {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        border: none;
+        border-radius: 10px;
+    }
+    
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #ff5252 0%, #d63031 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 82, 82, 0.4);
+    }
+</style>
+{% endblock %}

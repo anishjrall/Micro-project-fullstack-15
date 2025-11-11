@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Import Contacts{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card contact-card border-0">
+            <div class="card-header glass-effect border-0 text-center">
+                <i class="fas fa-file-import fa-2x text-primary mb-3"></i>
+                <h4 class="mb-0">Import Contacts</h4>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="alert alert-info glass-effect">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>CSV Format Required:</strong> First Name, Last Name, Email, Phone, Company, Job Title, Address, Birthday (YYYY-MM-DD)
+                </div>
+                
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4 text-center">
+                        <label for="csv_file" class="btn btn-primary btn-lg">
+                            <i class="fas fa-upload me-2"></i> Choose CSV File
+                        </label>
+                        <input type="file" name="csv_file" id="csv_file" accept=".csv" class="d-none" required 
+                               onchange="document.getElementById('file-name').textContent = this.files[0].name">
+                        <div class="mt-2">
+                            <small id="file-name" class="text-muted">No file chosen</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-cloud-upload-alt me-2"></i> Import Contacts
+                        </button>
+                        <a href="{% url 'contact_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Sample CSV -->
+        <div class="card contact-card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-download me-2"></i>Sample CSV Format</h6>
+            </div>
+            <div class="card-body">
+                <pre class="mb-0"><code>First Name,Last Name,Email,Phone,Company,Job Title,Address,Birthday
+John,Doe,john@example.com,+1234567890,ACME Inc,Manager,123 Main St,1990-05-15
+Jane,Smith,jane@example.com,+0987654321,Tech Corp,Developer,456 Oak Ave,1985-12-25</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
